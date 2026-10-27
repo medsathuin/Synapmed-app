@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) 
+        && request.resource.data.userId == userId
+        && request.resource.data.name is string 
+        && request.resource.data.name.size() <= 120;
+      allow update: if isOwner(userId) 
+        && request.resource.data.userId == existing().userId;
+      allow delete: if false;
+
+      // Bookmarks subcollection
+      match /bookmarks/{bookmarkId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Notes subcollection
+      match /notes/{noteId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Uploaded Notes subcollection
+      match /uploadedNotes/{uploadId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Test Attempts subcollection
+      match /testAttempts/{attemptId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Magic Module Mistakes subcollection
+      match /magicModule/{questionId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Discussion threads under questions
+    match /discussions/{questionId}/comments/{commentId} {
+      allow list: if isSignedIn();
+      allow get: if isSignedIn();
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.text is string
+        && request.resource.data.text.size() <= 1500;
+      allow update: if isSignedIn() && (
+        resource.data.userId == request.auth.uid ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['upvotes'])
+      );
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Live Classes Doubts & Polls
+    match /liveClasses/{classId}/doubts/{doubtId} {
+      allow list: if isSignedIn();
+      allow get: if isSignedIn();
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.question is string
+        && request.resource.data.question.size() <= 1000;
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+  }
+}

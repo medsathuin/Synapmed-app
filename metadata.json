@@ -1,0 +1,8 @@
+{
+  "name": "Synapse Med - Medical PG Learning & QBank",
+  "description": "Comprehensive medical PG preparation platform featuring 800+ hours of clinical lectures, 18,500+ MCQs, 3D anatomical schemas, All-India Grand Tests, and cross-device sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

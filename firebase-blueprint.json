@@ -1,0 +1,182 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with study metrics and target exam preferences",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "maxLength": 150 },
+        "targetExam": { "type": "string", "maxLength": 50 },
+        "currentStreak": { "type": "number" },
+        "bestStreak": { "type": "number" },
+        "lastStudyDate": { "type": "string", "maxLength": 30 },
+        "totalQuestionsSolved": { "type": "number" },
+        "totalMinutesWatched": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "name", "targetExam"]
+    },
+    "UserBookmark": {
+      "title": "UserBookmark",
+      "description": "Bookmarked question, pearl, video or treasure with custom tag",
+      "type": "object",
+      "properties": {
+        "bookmarkId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "itemType": { "type": "string", "maxLength": 30 },
+        "itemId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 300 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "tag": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["bookmarkId", "userId", "itemType", "itemId", "title"]
+    },
+    "UserNote": {
+      "title": "UserNote",
+      "description": "Personal note attached to a question or lecture",
+      "type": "object",
+      "properties": {
+        "noteId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "targetType": { "type": "string", "maxLength": 30 },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "title": { "type": "string", "maxLength": 300 },
+        "content": { "type": "string", "maxLength": 5000 },
+        "timestampSec": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["noteId", "userId", "targetType", "targetId", "content"]
+    },
+    "TestAttempt": {
+      "title": "TestAttempt",
+      "description": "Completed Grand Test, subject test or custom module score report",
+      "type": "object",
+      "properties": {
+        "attemptId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "testId": { "type": "string", "maxLength": 128 },
+        "testTitle": { "type": "string", "maxLength": 200 },
+        "testType": { "type": "string", "maxLength": 50 },
+        "totalQuestions": { "type": "number" },
+        "correctCount": { "type": "number" },
+        "incorrectCount": { "type": "number" },
+        "unattemptedCount": { "type": "number" },
+        "accuracyPercentage": { "type": "number" },
+        "score": { "type": "number" },
+        "percentile": { "type": "number" },
+        "allIndiaRank": { "type": "number" },
+        "stateRank": { "type": "number" },
+        "totalTimeSeconds": { "type": "number" },
+        "avgTimePerQSeconds": { "type": "number" },
+        "completedAt": { "type": "string" }
+      },
+      "required": ["attemptId", "userId", "testId", "testTitle", "score", "percentile"]
+    },
+    "MagicModuleMistake": {
+      "title": "MagicModuleMistake",
+      "description": "Auto-collected incorrect question for spaced repetition revision",
+      "type": "object",
+      "properties": {
+        "questionId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "topic": { "type": "string", "maxLength": 150 },
+        "questionText": { "type": "string", "maxLength": 1000 },
+        "wrongCount": { "type": "number" },
+        "correctStreak": { "type": "number" },
+        "isMastered": { "type": "boolean" },
+        "revisionBox": { "type": "number" },
+        "nextRevisionDate": { "type": "string", "maxLength": 30 },
+        "lastAttemptedAt": { "type": "string" }
+      },
+      "required": ["questionId", "userId", "subject", "questionText", "isMastered"]
+    },
+    "QuestionComment": {
+      "title": "QuestionComment",
+      "description": "Discussion post or peer doubt under a question",
+      "type": "object",
+      "properties": {
+        "commentId": { "type": "string", "maxLength": 128 },
+        "questionId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 120 },
+        "userRole": { "type": "string", "maxLength": 50 },
+        "text": { "type": "string", "maxLength": 1500 },
+        "upvotes": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["commentId", "questionId", "userId", "userName", "text"]
+    },
+    "UserUploadedNote": {
+      "title": "UserUploadedNote",
+      "description": "Custom PDF or notes uploaded by the user to the platform",
+      "type": "object",
+      "properties": {
+        "uploadId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 200 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "fileSizeMb": { "type": "number" },
+        "pageCount": { "type": "number" },
+        "uploadedAt": { "type": "string" }
+      },
+      "required": ["uploadId", "userId", "title", "subject"]
+    },
+    "LiveClassDoubt": {
+      "title": "LiveClassDoubt",
+      "description": "Live doubt or raised hand during a live interactive class",
+      "type": "object",
+      "properties": {
+        "doubtId": { "type": "string", "maxLength": 128 },
+        "classId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 120 },
+        "question": { "type": "string", "maxLength": 1000 },
+        "isHandRaised": { "type": "boolean" },
+        "status": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["doubtId", "classId", "userId", "userName", "question"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "User profile, streak, and aggregate study statistics"
+    },
+    "/users/{userId}/bookmarks/{bookmarkId}": {
+      "schema": { "$ref": "UserBookmark" },
+      "description": "User bookmarked MCQs, pearls, videos and treasures"
+    },
+    "/users/{userId}/notes/{noteId}": {
+      "schema": { "$ref": "UserNote" },
+      "description": "User clinical notes attached to questions and lectures"
+    },
+    "/users/{userId}/uploadedNotes/{uploadId}": {
+      "schema": { "$ref": "UserUploadedNote" },
+      "description": "Custom PDFs and revision notes uploaded by the user"
+    },
+    "/users/{userId}/testAttempts/{attemptId}": {
+      "schema": { "$ref": "TestAttempt" },
+      "description": "User test attempts, score cards and percentile analytics"
+    },
+    "/users/{userId}/magicModule/{questionId}": {
+      "schema": { "$ref": "MagicModuleMistake" },
+      "description": "Auto-collected mistake questions for smart re-revision"
+    },
+    "/discussions/{questionId}/comments/{commentId}": {
+      "schema": { "$ref": "QuestionComment" },
+      "description": "Peer and faculty clinical discussion threads under MCQs"
+    },
+    "/liveClasses/{classId}/doubts/{doubtId}": {
+      "schema": { "$ref": "LiveClassDoubt" },
+      "description": "Live class doubts and hand raises from students"
+    }
+  }
+}
